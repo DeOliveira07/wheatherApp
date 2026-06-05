@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     HomePage(
                         modifier = Modifier.padding(innerPadding),
-                        name = "Estudante"
+                        name = "Miguel"
                     )
                 }
             }
