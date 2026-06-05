@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     HomePage(
                         modifier = Modifier.padding(innerPadding),
-                        name = "Luiz"
+                        name = "Estudante"
                     )
                 }
             }
@@ -63,7 +63,7 @@ fun HomePage(modifier: Modifier = Modifier, name: String) {
         Spacer(modifier = Modifier.size(12.dp))
 
         Text(
-            text = "Seja bem-vindo à HomePage da aplicação!"
+            text = "Seja bem-vindo à HomePage !"
         )
 
         Spacer(
