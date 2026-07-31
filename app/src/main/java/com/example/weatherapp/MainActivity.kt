@@ -25,6 +25,11 @@ import androidx.compose.runtime.setValue
 import kotlin.OptIn
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.NavDestination.Companion.hasRoute
+import com.example.weatherapp.ui.nav.Route
 import com.example.weatherapp.ui.CityDialog
 import com.example.weatherapp.ui.MainViewModel
 import com.example.weatherapp.ui.nav.BottomNavBar
@@ -42,6 +47,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             var showDialog by remember { mutableStateOf(false) }
+
+            val currentRoute = navController.currentBackStackEntryAsState()
+            val showButton = currentRoute.value?.destination?.hasRoute(Route.List::class) == true
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.RequestPermission(),
+                onResult = {}
+            )
 
             WeatherAppTheme {
                 if (showDialog) {
@@ -79,12 +91,15 @@ class MainActivity : ComponentActivity() {
                         BottomNavBar(navController = navController, items = items)
                     },
                     floatingActionButton = {
-                        FloatingActionButton(onClick = { showDialog = true }) {
-                            Icon(Icons.Default.Add, contentDescription = "Adicionar")
+                        if (showButton) {
+                            FloatingActionButton(onClick = { showDialog = true }) {
+                                Icon(Icons.Default.Add, contentDescription = "Adicionar")
+                            }
                         }
                     }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
+                        launcher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
                         MainNavHost(navController = navController, viewModel = viewModel)
                     }
                 }
