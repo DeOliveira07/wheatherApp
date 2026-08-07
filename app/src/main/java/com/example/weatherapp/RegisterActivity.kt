@@ -29,6 +29,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.weatherapp.db.fb.FBDatabase
+import com.example.weatherapp.db.fb.toFBUser
+import com.example.weatherapp.model.User
 import com.example.weatherapp.ui.InputField
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 import com.google.firebase.Firebase
@@ -77,6 +80,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                 if(task.isSuccessful) {
                     Toast.makeText(activity,
                         "Registro OK!", Toast.LENGTH_LONG).show()
+                    FBDatabase().register(User(name, email).toFBUser())
                 } else {
                     Toast.makeText(activity,
                         "Registro FALHOU!", Toast.LENGTH_LONG).show()
